@@ -3,16 +3,19 @@ import java.net.*
 
 
 fun main() {
-    val okResponses = listOf(200, 301)
+    val ErrorResponses = listOf(
+        400..451, //Client errors
+        500..511 //Server errors
+    )
      try {
-        connect(okResponses)
+        connect(ErrorResponses)
     } catch (e: Exception) {
         e.printStackTrace()
     }
 }
 
 
-fun connect(okResponses: List<Int>) {
+fun connect(ErrorResponses: List<IntRange>) {
     print("Host:")
     val clientHost = readln()
     print("\nPort:")
@@ -35,10 +38,14 @@ fun connect(okResponses: List<Int>) {
     }
     println()
     println()
-    if (HTTP_response in okResponses) {
-        inFromServer.close()
-        outToServer.close()
-        clientSocket.close()
+    for(i in ErrorResponses.indices) {
+        if (HTTP_response in ErrorResponses[i]) {
+            if (i == 0) println("There was a client error, try again")
+            else println("There was a server error, try again")
+            connect(ErrorResponses)
+        }
     }
-    else connect(okResponses)
+    inFromServer.close()
+    outToServer.close()
+    clientSocket.close()
 }
