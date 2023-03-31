@@ -44,7 +44,7 @@ fun main() {
 
         // send an HTTP GET request for the HTML page to the server
         val outToServer = PrintWriter(clientSocket.getOutputStream())
-        outToServer.println("GET / HTTP/1.1\r\nHost: example.com\r\n\r\n")
+        outToServer.println("GET / HTTP/1.1\r\nHost: $(clientSocket. ) \r\n\r\n")
         outToServer.flush()
 
         // read and print the HTTP response from the server
