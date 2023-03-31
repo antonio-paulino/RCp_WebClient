@@ -4,14 +4,14 @@ import java.net.*
 fun main() {
     try {
         // establish a TCP connection with the server
-        println("Host:")
+        print("Host:")
         val clientHost = readln()
-        println("Port:")
+        print("\nPort:")
         val clientPort = readln().toInt()
         val clientSocket = Socket(clientHost, clientPort)
-        println("Get:")
+        print("\nCommand:")
         val clientGet = readln()
-        // send an HTTP GET request for the HTML page to the server
+        // send an HTTP request for the HTML page to the server
         val outToServer = PrintWriter(clientSocket.getOutputStream())
         outToServer.println("$clientGet\r\nHost: $clientHost \r\n\r\n")
         outToServer.flush()
@@ -19,6 +19,7 @@ fun main() {
         // read and print the HTTP response from the server
         val inFromServer = BufferedReader(InputStreamReader(clientSocket.getInputStream()))
         var responseLine: String? = inFromServer.readLine()
+        val HTTP_response = responseLine!!.split(" ")[1]
         while (responseLine != null) {
             println(responseLine)
             responseLine = inFromServer.readLine()
